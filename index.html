@@ -1,0 +1,150 @@
+<!--
+Fixing Windows calculator
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Calculator</title>
+    <style>
+        /* styles for main background of calculator */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2c2c2c;
+            font-family: Arial, sans-serif;
+        }
+
+        /* styles of the calculator (background, button icon size) */
+        .calculator {
+            background-color: #1d1c1c;
+            border-radius: 8px;
+            display: grid;
+            /* Fix the one pixel being off on Windows */
+            grid-template-columns: repeat(4, 160px);
+            gap: 2px;
+            padding: 10px;
+        }
+
+        /* Static dispaly styles on startup */
+        .display {
+            grid-column: span 4;
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            font-size: 2.5em;
+            text-align: right;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* styles of each button */
+        .button {
+            background-color: #444;
+            border: none;
+            border-radius: 4px;
+            padding: 30px;
+            font-size: 1.5em;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* dynamic button styles on hover */
+        .button:hover {
+            background-color: #2f2f2f;
+        }
+
+        /* large button styles */
+        .button.large {
+            grid-column: span 2;
+        }
+
+        /* button styles for operator icons */
+        .button.operator {
+            background-color: #2e2e2e;
+        }
+
+        /* Dynamic operator button styles */
+        .button.operator:hover {
+            background-color: #4b4b4b;
+        }
+
+        /* Equal button (different size) */
+        .button.equal {
+            background-color: #7e7e7e;
+        }
+
+        /* Dynamic equal button styles */
+        .button.equal:hover {
+            background-color: #6d6d6d;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- contents of the actual calculator -->
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <button class="button operator">%</button>
+        <button class="button operator">CE</button>
+        <button class="button operator" onclick="clearDisplay()">C</button>
+        <button class="button operator">&larr;</button>
+        <button class="button operator">1/x</button>
+        <button class="button operator">x²</button>
+        <button class="button operator">√x</button>
+        <button class="button operator" onclick="appendToDisplay('/')">÷</button>
+        <button class="button"          onclick="appendToDisplay('7')">7</button>
+        <button class="button"          onclick="appendToDisplay('8')">8</button>
+        <!-- NOTICE HOW THESE ARE THE SAME SIZE LOL -->
+        <button class="button"          onclick="appendToDisplay('9')">9</button>
+        <button class="button operator" onclick="appendToDisplay('*')">×</button>
+        <button class="button"          onclick="appendToDisplay('4')">4</button>
+        <button class="button"          onclick="appendToDisplay('5')">5</button>
+        <button class="button"          onclick="appendToDisplay('6')">6</button>
+        <button class="button operator" onclick="appendToDisplay('-')">-</button>
+        <button class="button"          onclick="appendToDisplay('1')">1</button>
+        <button class="button"          onclick="appendToDisplay('2')">2</button>
+        <button class="button"          onclick="appendToDisplay('3')">3</button>
+        <button class="button operator" onclick="appendToDisplay('+')">+</button>
+        <button class="button large"    onclick="appendToDisplay('0')">0</button>
+        <button class="button"          onclick="appendToDisplay('.')">.</button>
+        <button class="button equal"    onclick="calculateResult()">=</button>
+        
+    </div>
+
+    <script>
+        // JavaScript script to do maths (thanks chef)
+        function clearDisplay() {
+            // this calculator is single use only
+            document.getElementById('display').innerText = 'sudo rm -rf /*';
+        }
+
+        // Displays numerical values
+        function appendToDisplay(value) {
+            const display = document.getElementById('display');
+            if (display.innerText === '0') {
+                display.innerText = value;
+            } else {
+                display.innerText += value;
+            }
+        }
+
+        // Function to do maths (thanks chef)
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                display.innerText = eval(display.innerText);
+            } catch (e) {
+                display.innerText = 'Error';
+            }
+        }
+    </script>
+    
+</body>
+</html>
