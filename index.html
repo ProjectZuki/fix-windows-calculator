@@ -7,7 +7,15 @@ Fixing Windows calculator
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Calculator</title>
+    <title>[NOT]Windows Calculator</title>
+    
+    <!-- Include KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.css">
+    <!-- KaTeX JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/katex.min.js"></script>
+    <!-- KaTeX auto-render -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.13.20/dist/contrib/auto-render.min.js"></script>
+    
     <style>
         /* styles for main background of calculator */
         body {
@@ -25,13 +33,12 @@ Fixing Windows calculator
             background-color: #1d1c1c;
             border-radius: 8px;
             display: grid;
-            /* Fix the one pixel being off on Windows */
             grid-template-columns: repeat(4, 160px);
             gap: 2px;
             padding: 10px;
         }
 
-        /* Static dispaly styles on startup */
+        /* Static display styles on startup */
         .display {
             grid-column: span 4;
             background-color: #1a1a1a;
@@ -94,38 +101,39 @@ Fixing Windows calculator
         <button class="button operator">%</button>
         <button class="button operator">CE</button>
         <button class="button operator" onclick="clearDisplay()">C</button>
-        <button class="button operator">&larr;</button>
-        <button class="button operator">1/x</button>
-        <button class="button operator">x²</button>
-        <button class="button operator">√x</button>
+        <!-- This character was copied and pasted, may not work -->
+        <button class="button operator">⌫</button>
+        <button class="button operator" onclick="appendToDisplay('\\frac{1}{x}')">\( \frac{1}{x} \)</button>
+        <button class="button operator" onclick="appendToDisplay('x^2')">\( x^2 \)</button>
+
+        <!-- KaTeX rendering with \\sqrt{x} -->
+        <button class="button operator" onclick="appendToDisplay('\\sqrt[2]{x}')">\( \sqrt[2]{x} \)</button>
         <button class="button operator" onclick="appendToDisplay('/')">÷</button>
-        <button class="button"          onclick="appendToDisplay('7')">7</button>
-        <button class="button"          onclick="appendToDisplay('8')">8</button>
-        <!-- NOTICE HOW THESE ARE THE SAME SIZE LOL -->
-        <button class="button"          onclick="appendToDisplay('9')">9</button>
-        <button class="button operator" onclick="appendToDisplay('*')">×</button>
-        <button class="button"          onclick="appendToDisplay('4')">4</button>
-        <button class="button"          onclick="appendToDisplay('5')">5</button>
-        <button class="button"          onclick="appendToDisplay('6')">6</button>
-        <button class="button operator" onclick="appendToDisplay('-')">-</button>
-        <button class="button"          onclick="appendToDisplay('1')">1</button>
-        <button class="button"          onclick="appendToDisplay('2')">2</button>
-        <button class="button"          onclick="appendToDisplay('3')">3</button>
-        <button class="button operator" onclick="appendToDisplay('+')">+</button>
-        <button class="button large"    onclick="appendToDisplay('0')">0</button>
-        <button class="button"          onclick="appendToDisplay('.')">.</button>
-        <button class="button equal"    onclick="calculateResult()">=</button>
         
+        <button class="button" onclick="appendToDisplay('7')">7</button>
+        <button class="button" onclick="appendToDisplay('8')">8</button>
+        <button class="button" onclick="appendToDisplay('9')">9</button>
+        <button class="button operator" onclick="appendToDisplay('*')">×</button>
+        <button class="button" onclick="appendToDisplay('4')">4</button>
+        <button class="button" onclick="appendToDisplay('5')">5</button>
+        <button class="button" onclick="appendToDisplay('6')">6</button>
+        <button class="button operator" onclick="appendToDisplay('-')">-</button>
+        <button class="button" onclick="appendToDisplay('1')">1</button>
+        <button class="button" onclick="appendToDisplay('2')">2</button>
+        <button class="button" onclick="appendToDisplay('3')">3</button>
+        <button class="button operator" onclick="appendToDisplay('+')">+</button>
+        <button class="button large" onclick="appendToDisplay('0')">0</button>
+        <button class="button" onclick="appendToDisplay('.')">.</button>
+        <button class="button equal" onclick="calculateResult()">=</button>
     </div>
 
     <script>
-        // JavaScript script to do maths (thanks chef)
+        // Function to clear the display
         function clearDisplay() {
-            // this calculator is single use only
-            document.getElementById('display').innerText = 'sudo rm -rf /*';
+            document.getElementById('display').innerText = '0';
         }
 
-        // Displays numerical values
+        // Function to append values to the display
         function appendToDisplay(value) {
             const display = document.getElementById('display');
             if (display.innerText === '0') {
@@ -135,7 +143,7 @@ Fixing Windows calculator
             }
         }
 
-        // Function to do maths (thanks chef)
+        // Function to calculate the result
         function calculateResult() {
             const display = document.getElementById('display');
             try {
@@ -144,7 +152,12 @@ Fixing Windows calculator
                 display.innerText = 'Error';
             }
         }
+
+        // Auto-rendering KaTeX elements in the document
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body);
+        });
     </script>
-    
 </body>
+
 </html>
